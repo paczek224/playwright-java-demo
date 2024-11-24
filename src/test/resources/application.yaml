@@ -1,0 +1,12 @@
+device:
+  type: PC
+
+browser:
+  headless-mode: false
+
+playwright:
+  timeout: 10000
+
+user-credentials:
+  login: {$USER_LOGIN}
+  password: {USER_PASSWORD}
