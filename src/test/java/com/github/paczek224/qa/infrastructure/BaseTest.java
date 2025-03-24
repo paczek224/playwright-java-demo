@@ -1,8 +1,8 @@
-package com.github.paczek224.qa.common;
+package com.github.paczek224.qa.infrastructure;
 
-import com.github.paczek224.qa.common.configuration.ApplicationProperties;
-import com.github.paczek224.qa.common.playwright.PlayWrightManager;
-import com.github.paczek224.qa.login.manager.LoginPageManager;
+import com.github.paczek224.qa.infrastructure.configuration.ApplicationProperties;
+import com.github.paczek224.qa.infrastructure.page.LoginPage;
+import com.github.paczek224.qa.infrastructure.playwright.PlayWrightManager;
 import com.microsoft.playwright.Browser;
 import com.microsoft.playwright.BrowserContext;
 import com.microsoft.playwright.Page;
@@ -22,7 +22,7 @@ public abstract class BaseTest extends SpringTestCase {
 
     private final PlayWrightManager playWrightManager;
     private final ApplicationProperties applicationProperties;
-    protected LoginPageManager loginPageManager;
+    protected LoginPage loginPage;
     protected BrowserContext context;
     protected Page page;
 
@@ -50,15 +50,11 @@ public abstract class BaseTest extends SpringTestCase {
                 new Browser.NewContextOptions().setStorageStatePath(Paths.get(contextFilePath))
         );
         context.setDefaultTimeout(applicationProperties.getTimeOut());
-
         page = context.newPage();
         page.setDefaultTimeout(applicationProperties.getTimeOut());
-
         PlaywrightAssertions.setDefaultAssertionTimeout(applicationProperties.getTimeOut());
 
-        loginPageManager = new LoginPageManager(applicationProperties, page);
-        loginPageManager.onLoginPage().navigateToLoginPage();
-
+        loginPage = new LoginPage(page, applicationProperties);
         initPageManagers(page);
     }
 
@@ -78,10 +74,12 @@ public abstract class BaseTest extends SpringTestCase {
             if (shouldLogin) {
                 PlaywrightAssertions.setDefaultAssertionTimeout(applicationProperties.getTimeOut());
 
-                loginPageManager = new LoginPageManager(applicationProperties, authPage);
-                loginPageManager.onLoginPage().navigateToLoginPage();
-                loginPageManager.assertLogin().assertUserLoginDefaultState();
-                loginPageManager.actions().loginWithValidUser();
+                loginPage = new LoginPage(authPage, applicationProperties);
+                loginPage
+                        .goToLoginPage()
+                        .enterValidUserName()
+                        .enterValidPassword()
+                        .submit();
             }
 
             authContext.storageState(new BrowserContext.StorageStateOptions().setPath(Paths.get(contextFilePath)));

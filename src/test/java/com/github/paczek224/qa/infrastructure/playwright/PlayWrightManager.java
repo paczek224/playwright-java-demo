@@ -1,6 +1,6 @@
-package com.github.paczek224.qa.common.playwright;
+package com.github.paczek224.qa.infrastructure.playwright;
 
-import com.github.paczek224.qa.common.configuration.ApplicationProperties;
+import com.github.paczek224.qa.infrastructure.configuration.ApplicationProperties;
 import com.microsoft.playwright.Browser;
 import com.microsoft.playwright.BrowserType;
 import com.microsoft.playwright.Playwright;

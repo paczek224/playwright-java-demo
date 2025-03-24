@@ -39,3 +39,4 @@ build/
 
 .idea
 .context
+.allure

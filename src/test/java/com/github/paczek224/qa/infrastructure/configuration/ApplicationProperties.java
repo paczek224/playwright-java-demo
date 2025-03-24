@@ -1,4 +1,4 @@
-package com.github.paczek224.qa.common.configuration;
+package com.github.paczek224.qa.infrastructure.configuration;
 
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,6 +19,12 @@ public class ApplicationProperties {
 
     @Value("${application.login-url}")
     public String loginUrl;
+
+    @Value("${application.repo-url}")
+    public String repoUrl;
+
+    @Value("${application.repo-name}")
+    public String repoName;
 
     @Value("${user-credentials.login}")
     public String userName;

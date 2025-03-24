@@ -1,4 +1,4 @@
-package com.github.paczek224.qa.common;
+package com.github.paczek224.qa.infrastructure;
 
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;

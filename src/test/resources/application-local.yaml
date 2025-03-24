@@ -1,2 +1,4 @@
 application:
-  login-url: "https://seleniumui.moderntester.pl/"
+  login-url: "https://github.com/login"
+  repo-url: "https://github.com/paczek224/playwright-java-demo"
+  repo-name: "paczek224/playwright-java-demo"

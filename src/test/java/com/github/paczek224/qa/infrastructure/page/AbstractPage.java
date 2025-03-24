@@ -1,4 +1,4 @@
-package com.github.paczek224.qa.common.page;
+package com.github.paczek224.qa.infrastructure.page;
 
 import com.microsoft.playwright.Page;
 import lombok.Getter;

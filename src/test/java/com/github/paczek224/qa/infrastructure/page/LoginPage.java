@@ -1,47 +1,43 @@
-package com.github.paczek224.qa.login.page;
+package com.github.paczek224.qa.infrastructure.page;
 
-import com.github.paczek224.qa.common.configuration.ApplicationProperties;
-import com.github.paczek224.qa.common.page.AbstractTestPage;
+import com.github.paczek224.qa.infrastructure.configuration.ApplicationProperties;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@Getter
 public class LoginPage extends AbstractTestPage {
 
     private final ApplicationProperties applicationProperties;
-    private final String loginUrl;
-    private final String login;
-    private final String password;
-    public Locator userNameInput;
+    private final Locator signInButton;
+    private final Locator userNameInput;
+    private final Locator userPasswordInput;
+    private final Locator loggedUserIcon;
 
     public LoginPage(Page page, ApplicationProperties applicationProperties) {
         super(page);
         this.applicationProperties = applicationProperties;
-        this.loginUrl = applicationProperties.getLoginUrl();
-        this.login = applicationProperties.getUserName();
-        this.password = applicationProperties.getUserPassword();
 
-        userNameInput = page.locator("#inputFirstName3");
+        userNameInput = page.locator("#login_field");
+        userPasswordInput = page.locator("#password");
+        signInButton = page.locator("//input[@type='submit']");
+        loggedUserIcon = page.locator("div.AppHeader-user");
     }
 
-    public LoginPage navigateToLoginPage() {
-        page.navigate(loginUrl);
-
+    public LoginPage goToLoginPage() {
+        page.navigate(applicationProperties.loginUrl);
         return this;
     }
 
     public LoginPage setUserName(String userName) {
         userNameInput.fill(userName);
-
         return this;
     }
 
     public LoginPage setPassword(String userPassword) {
-/*
-        passwordInput.fill(userPassword);
-*/
-
+        userPasswordInput.fill(userPassword);
         return this;
     }
 
@@ -52,6 +48,12 @@ public class LoginPage extends AbstractTestPage {
 
     public LoginPage enterValidPassword() {
         setPassword(applicationProperties.userPassword);
+        return this;
+    }
+
+    public LoginPage submit() {
+        signInButton.click();
+        loggedUserIcon.waitFor();
         return this;
     }
 }
